@@ -1,0 +1,1031 @@
+/* ==========================================================================
+   KOZMINSKI ESCAPE: POLOWANIE NA ECTS — ARKUSZ STYLÓW (css/style.css)
+   Akademia Leona Koźmińskiego (ALK) w Warszawie
+   ========================================================================== */
+
+/* 1. PALETA BARW AKADEMII LEONA KOŹMIŃSKIEGO & RETRO-ARCADE TOKENS */
+:root {
+  /* Oficjalna paleta ALK */
+  --alk-navy-main: #002244;       /* Główny granat ALK */
+  --alk-navy-dark: #0a1128;       /* Ciemny granat tła */
+  --alk-blue-alt: #004b87;        /* Kolor uzupełniający niebieski */
+  --alk-gold: #f2a900;            /* Akcentowe złoto ALK */
+  --alk-gold-light: #ffc740;      /* Jasne złoto */
+
+  /* Dodatkowe tokeny świetlne i pomocnicze */
+  --alk-gold-glow: rgba(242, 169, 0, 0.4);
+  --alk-gold-glow-soft: rgba(255, 199, 64, 0.2);
+  --alk-blue-glow: rgba(0, 75, 135, 0.45);
+  
+  --hud-glass-bg: rgba(0, 34, 68, 0.82);
+  --hud-glass-border: #f2a900;
+  
+  --patio-green: #10b981;
+  --patio-green-glow: rgba(16, 185, 129, 0.4);
+  --exam-red: #ef4444;
+  --exam-red-glow: rgba(239, 68, 68, 0.45);
+
+  --stamina-start: #004b87;
+  --stamina-mid: #0284c7;
+  --stamina-end: #38bdf8;
+  --stamina-glow: rgba(56, 189, 248, 0.5);
+
+  --text-white: #ffffff;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================================================
+   RESET & BAZOWE STYLE DLA GRY
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--alk-navy-dark);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(0, 75, 135, 0.45) 0%, transparent 65%),
+    radial-gradient(circle at 85% 90%, rgba(242, 169, 0, 0.12) 0%, transparent 50%),
+    linear-gradient(180deg, #0a1128 0%, #001730 100%);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* Główny kontener aplikacji */
+.game-app-container {
+  width: 100%;
+  max-width: 860px;
+  min-height: 100vh;
+  padding: 12px 14px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+/* ==========================================================================
+   2. NOWOCZESNY RETRO-ARCADE HUD (SZKLANY Z EFEKTEM BLUR I ZŁOTĄ RAMKĄ)
+   ========================================================================== */
+.hud-panel {
+  width: 100%;
+  max-width: 800px;
+  background: var(--hud-glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid var(--hud-glass-border);
+  border-radius: 14px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  box-shadow: 
+    0 8px 32px rgba(0, 34, 68, 0.7), 
+    0 0 16px var(--alk-gold-glow-soft),
+    inset 0 1px 0 rgba(255, 199, 64, 0.25);
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+/* Lewa sekcja HUD: Logo ALK i Lokalizacja */
+.hud-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.university-badge {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--alk-gold-light);
+  text-shadow: 0 0 10px var(--alk-gold-glow);
+}
+
+.badge-icon {
+  font-size: 15px;
+  filter: drop-shadow(0 0 6px var(--alk-gold-glow));
+}
+
+.campus-badge {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: rgba(0, 34, 68, 0.6);
+  padding: 3px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 199, 64, 0.25);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.status-indicator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--patio-green);
+  box-shadow: 0 0 8px var(--patio-green);
+  animation: pulse-dot 1.8s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.8); }
+}
+
+.badge-label {
+  font-weight: 800;
+  color: var(--alk-gold);
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+}
+
+.badge-value {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Środkowa sekcja HUD: Licznik ECTS (Cel: 30) */
+.hud-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ects-display-box {
+  background: linear-gradient(180deg, rgba(0, 75, 135, 0.5) 0%, rgba(0, 34, 68, 0.9) 100%);
+  border: 1.5px solid var(--alk-gold);
+  border-radius: 12px;
+  padding: 5px 16px 7px;
+  min-width: 160px;
+  text-align: center;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 0 14px var(--alk-gold-glow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.ects-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 2px;
+}
+
+.ects-icon {
+  font-size: 13px;
+  filter: drop-shadow(0 0 6px var(--alk-gold-glow));
+}
+
+.ects-title {
+  font-family: var(--font-heading);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: var(--alk-gold-light);
+}
+
+.ects-counter-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  line-height: 1.1;
+}
+
+.counter-number {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--text-white);
+  text-shadow: 0 0 12px rgba(255, 199, 64, 0.6);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.counter-divider {
+  font-size: 15px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.counter-target {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  color: var(--alk-gold-light);
+  font-weight: 800;
+}
+
+.ects-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(242, 169, 0, 0.25);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.ects-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--alk-gold) 0%, var(--alk-gold-light) 100%);
+  border-radius: 9999px;
+  box-shadow: 0 0 10px var(--alk-gold-glow);
+  transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Prawa sekcja HUD: Pasek staminy i przycisk audio */
+.hud-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stamina-container {
+  min-width: 135px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stamina-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.stamina-icon {
+  font-size: 12px;
+  filter: drop-shadow(0 0 5px var(--stamina-glow));
+}
+
+.stamina-title {
+  color: #38bdf8;
+  letter-spacing: 0.6px;
+  font-family: var(--font-heading);
+}
+
+.stamina-pct {
+  color: var(--text-white);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+/* Pasek staminy z płynnym przejściem gradientowym */
+.stamina-bar-track {
+  width: 100%;
+  height: 9px;
+  background: rgba(0, 34, 68, 0.9);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 9999px;
+  overflow: hidden;
+  padding: 1px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.stamina-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--stamina-start) 0%, var(--stamina-mid) 45%, var(--stamina-end) 100%);
+  border-radius: 9999px;
+  box-shadow: 0 0 10px var(--stamina-glow);
+  transition: width 0.1s linear, background 0.3s ease;
+}
+
+.stamina-fill.exhausted {
+  background: linear-gradient(90deg, #b91c1c 0%, #ea580c 60%, #f97316 100%);
+  box-shadow: 0 0 10px rgba(234, 88, 12, 0.6);
+}
+
+/* Przycisk wyciszenia w HUD */
+.hud-btn-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 34, 68, 0.7);
+  border: 1.5px solid var(--alk-gold);
+  border-radius: 12px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s, box-shadow 0.2s;
+}
+
+.hud-btn-icon:hover {
+  background: var(--alk-blue-alt);
+  transform: scale(1.08);
+  box-shadow: 0 0 12px var(--alk-gold-glow);
+}
+
+.hud-btn-icon:active {
+  transform: scale(0.94);
+}
+
+/* ==========================================================================
+   3. KONTENER CANVAS
+   ========================================================================== */
+.canvas-wrapper {
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+  background: #020914;
+  border-radius: 16px;
+  border: 2px solid rgba(242, 169, 0, 0.4);
+  overflow: visible; /* Widoczność dla dymka i wskaźnika */
+  box-shadow: 
+    0 22px 60px rgba(0, 10, 25, 0.8),
+    0 0 25px rgba(0, 75, 135, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+#game-canvas {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 800 / 540;
+  display: block;
+  background: #06111f;
+  border-radius: 14px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* ==========================================================================
+   KOMIKSIOWY DYMEK NAD PROFESOREM Z ANIMACJĄ POP-IN I TRÓJKĄTNYM WSKAŹNIKIEM
+   ========================================================================== */
+.speech-bubble {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 620px;
+  background: rgba(10, 17, 40, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2.5px solid var(--alk-gold);
+  border-radius: 16px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.7), 
+    0 0 22px var(--alk-gold-glow);
+  z-index: 8;
+  pointer-events: none;
+  animation: bubblePop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Trójkątny wskaźnik komiksowego dymka (speech bubble tail) */
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 11px solid var(--alk-gold);
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(10, 17, 40, 0.98);
+  z-index: 1;
+}
+
+/* Animacja wyskakiwania dymka (pop-in) */
+@keyframes bubblePop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.7) translateY(-14px);
+  }
+  75% {
+    transform: translateX(-50%) scale(1.03) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1) translateY(0);
+  }
+}
+
+.speech-bubble.hidden {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.85) translateY(-16px);
+  pointer-events: none;
+}
+
+.bubble-avatar {
+  font-size: 28px;
+  flex-shrink: 0;
+  background: rgba(242, 169, 0, 0.12);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1.5px solid var(--alk-gold);
+  box-shadow: 0 0 10px var(--alk-gold-glow-soft);
+}
+
+.bubble-body {
+  flex: 1;
+}
+
+.bubble-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+#professor-name {
+  font-family: var(--font-heading);
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--alk-gold-light);
+  letter-spacing: 0.4px;
+}
+
+.bubble-badge {
+  font-size: 9px;
+  font-weight: 800;
+  background: var(--alk-navy-main);
+  border: 1px solid var(--alk-gold);
+  color: var(--alk-gold-light);
+  padding: 1px 7px;
+  border-radius: 6px;
+  letter-spacing: 0.6px;
+}
+
+#professor-text {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: #f1f5f9;
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   4. EKRANY MODALNE (START, PORAŻKA, ZWYCIĘSTWO)
+   ========================================================================== */
+.modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 17, 40, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 20;
+  border-radius: 14px;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.modal-backdrop.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 580px;
+  background: linear-gradient(180deg, var(--alk-navy-main) 0%, var(--alk-navy-dark) 100%);
+  border: 2px solid var(--alk-gold);
+  border-radius: 18px;
+  padding: 24px 28px;
+  text-align: center;
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.8), 
+    0 0 35px var(--alk-gold-glow-soft),
+    inset 0 1px 0 rgba(255, 199, 64, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  max-height: 94vh;
+  overflow-y: auto;
+}
+
+.modal-badge-top {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: var(--alk-gold-light);
+  background: rgba(242, 169, 0, 0.12);
+  padding: 4px 14px;
+  border-radius: 9999px;
+  border: 1px solid var(--alk-gold);
+  box-shadow: 0 0 10px var(--alk-gold-glow-soft);
+}
+
+.modal-title {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: var(--text-white);
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+
+.modal-subtitle {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--alk-gold-light);
+  letter-spacing: 1px;
+  margin-top: -8px;
+  text-shadow: 0 0 8px var(--alk-gold-glow);
+}
+
+.modal-story {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  text-align: center;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 199, 64, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.story-highlight strong {
+  color: var(--text-white);
+}
+
+.story-warning {
+  color: #fca5a5;
+  font-size: 12.5px;
+}
+
+/* Legenda przedmiotów */
+.game-legend {
+  width: 100%;
+  text-align: left;
+}
+
+.legend-heading {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--alk-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.legend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 75, 135, 0.25);
+  border: 1px solid rgba(242, 169, 0, 0.2);
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+
+.legend-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.legend-desc {
+  display: flex;
+  flex-direction: column;
+}
+
+.legend-desc strong {
+  font-size: 12px;
+  color: #f1f5f9;
+  font-weight: 700;
+}
+
+.legend-desc span {
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+/* Podpowiedzi klawiszowe */
+.controls-guide {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.controls-pill {
+  font-size: 11px;
+  background: rgba(0, 75, 135, 0.3);
+  border: 1px solid rgba(242, 169, 0, 0.25);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  color: #e2e8f0;
+}
+
+.controls-pill strong {
+  color: var(--alk-gold-light);
+}
+
+/* ==========================================================================
+   ZŁOTE PRZYCISKI Z ANIMACJĄ POWIĘKSZENIA (HOVER SCALE)
+   ========================================================================== */
+.btn-primary-action {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--alk-navy-dark);
+  background: linear-gradient(135deg, var(--alk-gold-light) 0%, var(--alk-gold) 100%);
+  border: 1.5px solid #ffffff;
+  border-radius: 12px;
+  padding: 13px 32px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 
+    0 8px 24px var(--alk-gold-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transform: scale(1);
+  transition: 
+    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    box-shadow 0.2s ease, 
+    filter 0.2s ease;
+  margin-top: 4px;
+}
+
+/* Animacja powiększenia (hover scale) */
+.btn-primary-action:hover {
+  transform: scale(1.06);
+  filter: brightness(1.08);
+  box-shadow: 
+    0 14px 34px rgba(242, 169, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.btn-primary-action:active {
+  transform: scale(0.96);
+}
+
+.btn-arrow {
+  font-size: 16px;
+  transition: transform 0.2s ease;
+}
+
+.btn-primary-action:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Ekran Porażki */
+.failure-card {
+  border-color: var(--exam-red);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--exam-red-glow);
+}
+
+.modal-icon-failure {
+  font-size: 50px;
+  filter: drop-shadow(0 0 16px var(--exam-red-glow));
+}
+
+.failure-title {
+  color: #f87171;
+}
+
+.modal-desc-defeat {
+  font-size: 14px;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px var(--exam-red-glow);
+}
+
+.btn-danger:hover {
+  box-shadow: 0 14px 34px rgba(220, 38, 38, 0.6);
+}
+
+/* Ekran Zwycięstwa */
+.victory-card {
+  border-color: var(--patio-green);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px var(--patio-green-glow);
+}
+
+.modal-icon-victory {
+  font-size: 52px;
+  filter: drop-shadow(0 0 22px var(--patio-green-glow));
+}
+
+.victory-title {
+  color: #34d399;
+}
+
+.modal-desc-victory {
+  font-size: 14px;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px var(--patio-green-glow);
+}
+
+.btn-success:hover {
+  box-shadow: 0 14px 34px rgba(5, 150, 105, 0.6);
+}
+
+.scholarship-banner {
+  background: linear-gradient(90deg, rgba(242, 169, 0, 0.2) 0%, rgba(255, 199, 64, 0.35) 50%, rgba(242, 169, 0, 0.2) 100%);
+  border: 1.5px solid var(--alk-gold);
+  color: #fef08a;
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 13.5px;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  box-shadow: 0 0 18px var(--alk-gold-glow);
+}
+
+/* Statystyki podsumowania */
+.stats-summary-box {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(242, 169, 0, 0.2);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.stat-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.stat-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.stat-value {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.text-red { color: #f87171 !important; }
+.text-orange { color: #fb923c !important; }
+.text-green { color: #34d399 !important; }
+.text-gold { color: var(--alk-gold-light) !important; }
+
+.encouragement-text {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   5. RESPONSYWNOŚĆ & EKRANOWE PRZYCISKI STEROWANIA (#mobile-controls)
+   - Na PC (powyżej 768px): ukryte
+   - Poniżej 768px (@media): aktywowane i w pełni widoczne
+   ========================================================================== */
+
+/* Domyślnie na komputerach (PC) - ukryte */
+#mobile-controls,
+.mobile-controls,
+.touch-interface {
+  display: none;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 14px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 16px;
+  z-index: 15;
+}
+
+/* W widokach poniżej 768px: aktywuj wyświetlanie ekranowych przycisków sterowania */
+@media (max-width: 768px), (pointer: coarse) {
+  #mobile-controls,
+  .mobile-controls,
+  .touch-interface {
+    display: flex;
+  }
+
+  /* Dopasowanie HUD w wersji mobilnej */
+  .hud-panel {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  
+  .hud-left {
+    order: 1;
+  }
+  
+  .hud-right {
+    order: 2;
+  }
+  
+  .hud-center {
+    order: 3;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .ects-display-box {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .legend-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-title {
+    font-size: 24px;
+  }
+
+  .speech-bubble {
+    width: 95%;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .bubble-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  #professor-text {
+    font-size: 11.5px;
+  }
+}
+
+/* D-Pad Krzyżak */
+.touch-dpad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.dpad-middle-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dpad-center-hub {
+  width: 52px;
+  height: 52px;
+  background: rgba(0, 34, 68, 0.4);
+  border-radius: 10px;
+}
+
+.dpad-btn {
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(180deg, rgba(0, 75, 135, 0.7) 0%, rgba(0, 34, 68, 0.95) 100%);
+  border: 1.5px solid var(--alk-gold);
+  border-radius: 12px;
+  color: var(--alk-gold-light);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 199, 64, 0.2);
+  touch-action: manipulation;
+  transition: transform 0.1s ease, background 0.1s ease, filter 0.1s ease;
+}
+
+.dpad-btn:active,
+.dpad-btn.active {
+  background: var(--alk-gold);
+  color: var(--alk-navy-dark);
+  border-color: #ffffff;
+  transform: scale(0.92);
+  box-shadow: 0 0 16px var(--alk-gold-glow);
+}
+
+/* Przycisk Sprintu */
+.touch-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.touch-action-btn,
+.action-sprint {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--stamina-mid) 0%, var(--alk-blue-alt) 100%);
+  border: 2.5px solid var(--alk-gold);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.6), 
+    0 0 18px var(--stamina-glow);
+  touch-action: manipulation;
+  transform: scale(1);
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.touch-action-btn:active,
+.touch-action-btn.active {
+  transform: scale(0.92);
+  filter: brightness(1.25);
+  box-shadow: 0 0 24px var(--alk-gold-glow);
+}
+
+.action-icon {
+  font-size: 28px;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px var(--alk-gold-glow));
+}
+
+.action-label {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  margin-top: 2px;
+  color: var(--alk-gold-light);
+}
